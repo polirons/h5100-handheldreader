@@ -21,7 +21,7 @@ public class VanchReader extends Thread {
         this.mListeners.add(listener);
     }
 
-    protected void fireTagsReported(List<String> tags) {
+    private void fireTagsReported(List<String> tags) {
         for (TagsReportedListener listener : this.mListeners) {
             listener.onTagsReported(tags);
         }
@@ -47,6 +47,20 @@ public class VanchReader extends Thread {
             mStarted = false;
         } catch (Exception ex) {
             throw new UhfReaderException(ex.getMessage());
+        }
+    }
+
+    public void configure(final Config config) throws UhfReaderException {
+        if (mManager == null) {
+            open();
+        }
+
+        if (!mManager.setOutputPower(config.outputPower)) {
+            throw new UhfReaderException("Output power could not set!");
+        }
+
+        if (mManager.setWorkArea(config.workArea) != 0) {
+            throw new UhfReaderException("Work area could not set!");
         }
     }
 
