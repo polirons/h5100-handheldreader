@@ -27,7 +27,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile files('libs/SerialPort.jar')
-    compile files('libs/UHF.jar')
+    implementation files('libs/rfid.jar')
+    implementation files('libs/serialport.jar')
+    implementation files('libs/uhf-9_v1.3.jar')
     testCompile 'junit:junit:4.12'
 }

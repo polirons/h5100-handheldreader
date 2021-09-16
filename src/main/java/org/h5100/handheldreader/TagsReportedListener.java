@@ -1,4 +1,4 @@
-package org.vanch.handheldreader;
+package org.h5100.handheldreader;
 
 import java.util.List;
 

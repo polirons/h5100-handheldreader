@@ -1,4 +1,4 @@
-package org.vanch.handheldreader;
+package org.h5100.handheldreader;
 
 /**
  * Created by Mehmet on 30.6.2017.

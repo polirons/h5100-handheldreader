@@ -1,4 +1,4 @@
-package org.vanch.handheldreader;
+package org.h5100.handheldreader;
 
 import com.handheld.UHF.UhfManager;
 
@@ -11,7 +11,7 @@ import cn.pda.serialport.Tools;
  * Created by Mehmet on 30.6.2017.
  */
 
-public class VanchReader extends Thread {
+public class H5100Reader extends Thread {
 
     private boolean mStarted = false;
     private UhfManager mManager = null;
