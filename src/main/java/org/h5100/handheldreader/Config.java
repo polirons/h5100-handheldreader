@@ -1,6 +1,6 @@
 package org.h5100.handheldreader;
 
-import com.handheld.UHF.UhfManager;
+import com.uhf.api.cls.Reader;
 
 /**
  * Created by Mehmet on 30.6.2017.
@@ -8,8 +8,8 @@ import com.handheld.UHF.UhfManager;
 
 public class Config {
 
-    int outputPower = 17;
-    int workArea = UhfManager.WorkArea_Europe;
+    int outputPower = 33;
+    int workArea = Reader.Region_Conf.RG_EU.value();
 
     public int getOutputPower() {
         return outputPower;

@@ -1,6 +1,7 @@
 package org.h5100.handheldreader;
 
-import com.handheld.UHF.UhfManager;
+import com.handheld.uhfr.UHFRManager;
+import com.uhf.api.cls.Reader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import cn.pda.serialport.Tools;
 public class H5100Reader extends Thread {
 
     private boolean mStarted = false;
-    private UhfManager mManager = null;
+    private UHFRManager mManager = null;
     private ArrayList<TagsReportedListener> mListeners = new ArrayList<>();
 
     public void setOnTagsReportedListener(TagsReportedListener listener) {
@@ -29,7 +30,7 @@ public class H5100Reader extends Thread {
 
     public void open() throws UhfReaderException {
         try {
-            mManager = UhfManager.getInstance();
+            mManager = UHFRManager.getInstance();
             if (mManager == null) {
                 throw new UhfReaderException("Reader could not open!");
             }
@@ -55,13 +56,39 @@ public class H5100Reader extends Thread {
             open();
         }
 
-        if (!mManager.setOutputPower(config.outputPower)) {
+        // band = 4;
+        // Fre = 867,9Mhz Eksik burada kaldık.
+
+        //UHfData.UHfGetData.SetRfPower()
+
+        /*
+        *(byte) band = 4
+        * (byte) MaxFre = 14
+        *(byte) MinFre = 0
+        * (byte) Power = 30
+        *
+        * int result = UHfGetData.SetUhfInfo((byte) band, (byte) MaxFre,
+					(byte) MinFre, (byte) Power);
+        *
+        * */
+
+        // [0] is readPower, [1] is writePower
+        // we need to set only readPower to tune read antenna powers
+        int[] powers = mManager.getPower();
+        powers[0] = 33;//config.getOutputPower();
+
+        if (mManager.setPower(powers[0], powers[1]) != Reader.READER_ERR.MT_OK_ERR) {
+            // TODO: report special error for each READER_ERR enum values
             throw new UhfReaderException("Output power could not set!");
         }
 
-        if (mManager.setWorkArea(config.workArea) != 0) {
+        //MainActivity.mUhfrManager.setGen2session(isMulti);
+        mManager.setGen2session(false);
+
+        /*if (mManager.setRegion(Reader.Region_Conf.valueOf(config.workArea)) != Reader.READER_ERR.MT_OK_ERR) {
+            // TODO: report special error for each READER_ERR enum values
             throw new UhfReaderException("Work area could not set!");
-        }
+        }*/
     }
 
     public boolean isStarted() {
@@ -72,18 +99,18 @@ public class H5100Reader extends Thread {
     public void run() {
         super.run();
 
-        List<byte[]> epcList;
+        List<Reader.TAGINFO> epcList;
         ArrayList<String> readEpcList;
 
         while (isStarted()) {
             // manager.stopInventoryMulti()
-            epcList = mManager.inventoryRealTime(); // inventory real time
+            epcList = mManager.tagInventoryByTimer((short) 50);
             readEpcList = new ArrayList<>();
             if (epcList != null && !epcList.isEmpty()) {
                 // TODO: play sound
-                for (byte[] epc : epcList) {
-                    String epcStr = Tools.Bytes2HexString(epc,
-                            epc.length);
+                for (Reader.TAGINFO epc : epcList) {
+                    String epcStr = Tools.Bytes2HexString(epc.EpcId,
+                            epc.EpcId.length);
                     readEpcList.add(epcStr);
                 }
             }
