@@ -75,7 +75,8 @@ public class H5100Reader extends Thread {
         // [0] is readPower, [1] is writePower
         // we need to set only readPower to tune read antenna powers
         int[] powers = mManager.getPower();
-        powers[0] = 33;//config.getOutputPower();
+        powers[0] = config.getOutputPower();
+	powers[1] = config.getOutputPower();
 
         if (mManager.setPower(powers[0], powers[1]) != Reader.READER_ERR.MT_OK_ERR) {
             // TODO: report special error for each READER_ERR enum values
