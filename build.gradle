@@ -11,7 +11,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -23,10 +22,12 @@ android {
 
 dependencies {
     implementation 'com.android.support:support-v4:25.3.1'
-    implementation files('libs/jxl.jar')
     implementation files('libs/ModuleAPI_J.jar')
-    implementation files('libs/uhfr_v1.9.jar')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('libs/App_Demo_API.jar')
+    implementation files('libs/DeviceAPIver20150204.jar')
+    implementation files('libs/logutil-1.5.1.1.jar')
+    implementation files('libs/reader(1).jar')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
