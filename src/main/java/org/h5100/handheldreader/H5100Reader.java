@@ -76,7 +76,7 @@ public class H5100Reader extends Thread {
         // we need to set only readPower to tune read antenna powers
         int[] powers = mManager.getPower();
         powers[0] = config.getOutputPower();
-	powers[1] = config.getOutputPower();
+	    powers[1] = config.getOutputPower();
 
         if (mManager.setPower(powers[0], powers[1]) != Reader.READER_ERR.MT_OK_ERR) {
             // TODO: report special error for each READER_ERR enum values
@@ -86,10 +86,10 @@ public class H5100Reader extends Thread {
         //MainActivity.mUhfrManager.setGen2session(isMulti);
         mManager.setGen2session(false);
 
-        /*if (mManager.setRegion(Reader.Region_Conf.valueOf(config.workArea)) != Reader.READER_ERR.MT_OK_ERR) {
+        if (mManager.setRegion(Reader.Region_Conf.valueOf(config.workArea)) != Reader.READER_ERR.MT_OK_ERR) {
             // TODO: report special error for each READER_ERR enum values
             throw new UhfReaderException("Work area could not set!");
-        }*/
+        }
     }
 
     public boolean isStarted() {

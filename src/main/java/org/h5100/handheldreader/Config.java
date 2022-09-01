@@ -9,7 +9,7 @@ import com.uhf.api.cls.Reader;
 public class Config {
 
     int outputPower = 33;
-    int workArea = Reader.Region_Conf.RG_EU.value();
+    int workArea = Reader.Region_Conf.RG_EU3.value();
 
     public int getOutputPower() {
         return outputPower;
